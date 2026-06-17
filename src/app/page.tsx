@@ -43,6 +43,12 @@ export default function Dashboard() {
         }
 
         const result = await response.json();
+        
+        // PENCEGAHAN CRASH: Jika backend mengirim JSON berisi "error" (misal karena database kosong)
+        if (result.error) {
+          throw new Error(result.error);
+        }
+
         setData(result);
         setError(null);
       } catch (err: any) {
@@ -65,16 +71,22 @@ export default function Dashboard() {
     );
   }
 
-  // Tampilan Error jika FastAPI mati atau terjadi gangguan CORS
+  // Tampilan Error yang Lebih Cerdas (Bisa membedakan server mati vs database kosong)
   if (error || !data) {
+    const isDatabaseEmpty = error === "Database kosong";
+
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-washi p-4 text-center">
         <div className="p-4 bg-aka/10 rounded-full mb-4">
           <AlertTriangle className="w-8 h-8 text-aka" />
         </div>
-        <h2 className="text-xl font-bold text-sumi">Koneksi Backend Terputus</h2>
+        <h2 className="text-xl font-bold text-sumi">
+          {isDatabaseEmpty ? "Database Supabase Kosong" : "Koneksi Backend Terputus"}
+        </h2>
         <p className="text-sm text-sumi/70 mt-2 max-w-md">
-          Pastikan server FastAPI Python Anda sudah berjalan di <code className="bg-white px-1.5 py-0.5 rounded border border-gray-200 text-aka font-mono text-xs">port 8000</code> dan data sudah di-training.
+          {isDatabaseEmpty 
+            ? "Sistem berjalan normal, namun tidak ada data mahasiswa untuk dianalisis. Silakan jalankan 'python3 seed_db.py' di terminal backend untuk memasukkan 50 data awal."
+            : "Pastikan server FastAPI Anda di Hugging Face sudah berjalan dan URL Environment Variable sudah benar."}
         </p>
         <button
           onClick={() => window.location.reload()}
