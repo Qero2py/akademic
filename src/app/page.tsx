@@ -36,7 +36,7 @@ export default function Dashboard() {
     const fetchAnalytics = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://127.0.0.1:8000/api/dashboard-analytics");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/dashboard-analytics`);
 
         if (!response.ok) {
           throw new Error("Gagal mengambil data dari server");

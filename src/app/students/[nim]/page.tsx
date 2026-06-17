@@ -42,7 +42,7 @@ export default function StudentDetailPage() {
     const fetchStudentDetail = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://127.0.0.1:8000/api/students/${nim}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/students/${nim}`);
         
         if (!response.ok) {
           if (response.status === 404) throw new Error("Data mahasiswa tidak ditemukan");
@@ -68,7 +68,7 @@ export default function StudentDetailPage() {
 
     try {
       setLoading(true);
-      const response = await fetch(`http://127.0.0.1:8000/api/students/${nim}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/students/${nim}`, {
         method: "DELETE",
       });
 

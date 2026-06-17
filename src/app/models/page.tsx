@@ -32,7 +32,7 @@ export default function ModelsPage() {
   const fetchMetrics = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://127.0.0.1:8000/api/models/metrics");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/models/metrics`);
       if (!response.ok) throw new Error("Gagal memuat metrik evaluasi");
       const data = await response.json();
       setMetrics(data);
@@ -52,7 +52,7 @@ export default function ModelsPage() {
     try {
       setIsRetraining(true);
       setSuccessMessage(null);
-      const response = await fetch("http://127.0.0.1:8000/api/models/retrain", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/models/retrain`, {
         method: "POST",
       });
       if (!response.ok) throw new Error("Gagal melatih ulang model");

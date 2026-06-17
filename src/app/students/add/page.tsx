@@ -30,7 +30,7 @@ export default function AddStudentPage() {
     setError(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/students", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/students`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

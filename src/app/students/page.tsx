@@ -35,7 +35,7 @@ export default function StudentsPage() {
       if (search) queryParams.append("search", search);
       if (statusFilter) queryParams.append("status", statusFilter);
 
-      const response = await fetch(`http://127.0.0.1:8000/api/students?${queryParams.toString()}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/students?${queryParams.toString()}`);
       if (!response.ok) throw new Error("Gagal mengambil data mahasiswa");
       
       const data = await response.json();

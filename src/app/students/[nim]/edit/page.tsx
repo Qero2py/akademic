@@ -30,7 +30,7 @@ export default function EditStudentPage() {
 
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/students/${nim}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/students/${nim}`);
         if (!response.ok) throw new Error("Gagal mengambil data mahasiswa");
         
         const data = await response.json();
@@ -63,7 +63,7 @@ export default function EditStudentPage() {
     setError(null);
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/students/${nim}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/students/${nim}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
